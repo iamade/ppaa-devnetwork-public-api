@@ -1,0 +1,106 @@
+{
+  "updated": "2026-08-27T04:50:00Z",
+  "source": "PPAA fleet roster (public channels + Jira PP board)",
+  "agents": [
+    {
+      "slug": "ppaa-coordinator",
+      "name": "PPAA-Coordinator",
+      "role": "Routing & staging-surface registry",
+      "description": "Owns PPAA ticket routing, the staging-surface registry, and complete delivery packets. Maintains the cascade between Director direction and Builder/QA execution.",
+      "channel": "#ppaa-coordination",
+      "jira_refs": ["PP-62"],
+      "demo_routes": ["/api/agents/ppaa-coordinator"],
+      "evidence_links": ["Jira: PP-75/PP-83 delivery packets", "Discord: #ppaa-coordination dispatches"]
+    },
+    {
+      "slug": "ppaa-director",
+      "name": "PPAA-Director",
+      "role": "Cascade ownership & gate enforcement",
+      "description": "Owns the delivery cascade and rejects gate bypasses. Sets sprint priorities for the PPAA fleet (e.g. PP-79 > PP-80 > PP-81 for DevNetwork).",
+      "channel": "#ppaa-director",
+      "jira_refs": ["PP-79", "PP-80", "PP-81"],
+      "demo_routes": ["/api/agents/ppaa-director"],
+      "evidence_links": ["Jira: PP-79 sprint assignment 2026-06-19", "Discord: #ppaa-director directives"]
+    },
+    {
+      "slug": "ppaa-builder",
+      "name": "PPAA-Builder",
+      "role": "Staging surface creation & repair",
+      "description": "Creates and repairs staging surfaces, supplies branch/SHA/start-stop proof, and runs deterministic ruff/mypy/pytest/compose checks plus live /health verification.",
+      "channel": "#ppaa-build",
+      "jira_refs": ["PP-83", "PP-75", "PP-79"],
+      "demo_routes": ["/api/agents/ppaa-builder", "/health"],
+      "evidence_links": ["Merge 61cb56d (staging->main, PP-75/76/77/83/86)", "Discord: #ppaa-build packets"]
+    },
+    {
+      "slug": "ppaa-qa",
+      "name": "PPAA-QA",
+      "role": "Independent visual & functional verification",
+      "description": "Tests the registered staging surface at desktop/mobile, posts visual evidence (>=1440x900) before Codex Mac Retest.",
+      "channel": "#ppaa-qa",
+      "jira_refs": ["PP-75", "PP-83"],
+      "demo_routes": ["/api/agents/ppaa-qa"],
+      "evidence_links": ["QA PASS at SHA 95ac30e (2026-08-12)", "Discord: #ppaa-qa-evidence"]
+    },
+    {
+      "slug": "ppaa-scribe",
+      "name": "PPAA Ops Scribe Coordinator",
+      "role": "Ops bookkeeping & evidence transcription",
+      "description": "Transcribes build/QA evidence into channel packets, tracks tunnel and container state, and keeps #ppaa-build current.",
+      "channel": "#ppaa-build",
+      "jira_refs": ["PP-87", "PP-88"],
+      "demo_routes": ["/api/agents/ppaa-scribe"],
+      "evidence_links": ["Tunnel verification 2026-08-27", "Discord: #ppaa-build surface packets"]
+    },
+    {
+      "slug": "mavis",
+      "name": "Mavis",
+      "role": "Ade's MiniMax-side agent (trusted teammate)",
+      "description": "Provisioned and allowlisted by Ade (2026-08-02). Same standing as any fleet agent; handles pushes like any teammate and routes Done decisions to Ade.",
+      "channel": "Direct to Ade",
+      "jira_refs": ["PP-61"],
+      "demo_routes": ["/api/agents/mavis"],
+      "evidence_links": ["Ade approval relay 2026-08-16 (PP-61/PP-63 advancement)"]
+    },
+    {
+      "slug": "amara-vps-ops",
+      "name": "Amara-vps-ops",
+      "role": "VPS operations (primary)",
+      "description": "Primary lane for VPS-side changes and infrastructure blockers; first escalation point for VPS issues from the PPAA fleet.",
+      "channel": "#amara",
+      "jira_refs": [],
+      "demo_routes": ["/api/agents/amara-vps-ops"],
+      "evidence_links": ["Heartbeat escalation lane (Cardinal Facts)"]
+    },
+    {
+      "slug": "akande-vps-main",
+      "name": "Akande-VPS-Main",
+      "role": "CTO VPS oversight",
+      "description": "Second escalation point for VPS blockers; monitors stall pushes and fleet cadence.",
+      "channel": "#akande",
+      "jira_refs": [],
+      "demo_routes": ["/api/agents/akande-vps-main"],
+      "evidence_links": ["Stall push 2026-08-27 (#ppaa-build)"]
+    },
+    {
+      "slug": "codex-mac-retest",
+      "name": "Codex Mac Retest",
+      "role": "Mac-side independent retest",
+      "description": "Retests the staging branch and surface on Mac after PPAA-QA evidence, before Awaiting Ade Approval.",
+      "channel": "#claude-dispatch-ppaa",
+      "jira_refs": ["PP-71"],
+      "demo_routes": ["/api/agents/codex-mac-retest"],
+      "evidence_links": ["exact-sha-2138dd6-review on record (PP-83 lineage)"]
+    },
+    {
+      "slug": "tobi",
+      "name": "Tobi",
+      "role": "Mac-side & credentials (infrastructure only)",
+      "description": "Mac-side lane and credential custody. Project work is never routed to Tobi; Tobi acts only on direct VPS asks from Amara, Akande, Claude, or Ade.",
+      "channel": "#tobi-vps-coordination",
+      "jira_refs": [],
+      "demo_routes": ["/api/agents/tobi"],
+      "evidence_links": ["Prod lineage evidence 2026-08-26 (PP-83)"]
+    }
+  ]
+}

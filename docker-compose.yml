@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ppaa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ppaa_local}
+      POSTGRES_DB: ${POSTGRES_DB:-ppaa_showcase}
+    ports:
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-25432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ppaa} -d ${POSTGRES_DB:-ppaa_showcase}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:${REDIS_HOST_PORT:-26379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  app:
+    build: .
+    environment:
+      APP_PORT: "8005"
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      ALLOWED_ORIGINS: http://localhost:5174,http://127.0.0.1:5174
+    ports:
+      - "127.0.0.1:${APP_PORT:-8005}:8005"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    ports:
+      - "127.0.0.1:${WEB_PORT:-5174}:80"
+    depends_on:
+      - app
+    restart: unless-stopped

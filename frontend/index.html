@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PPAA Agent Showcase</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>PPAA Agent Showcase</h1>
+    <p class="sub">Public demo catalog of the People Protocol AI agent fleet — PP-79 / DevNetwork submission surface</p>
+    <p class="meta"><span id="count">–</span> agents · catalog updated <span id="updated">–</span></p>
+  </header>
+  <main>
+    <div class="controls">
+      <input id="q" type="search" placeholder="Filter agents by name, role, or channel…" aria-label="Filter agents" />
+    </div>
+    <section id="grid" class="grid" aria-live="polite"></section>
+    <p id="msg" class="msg" hidden></p>
+  </main>
+  <footer>
+    <p>Backend <code id="api-origin">/</code> · <a href="/api/agents">/api/agents</a> · <a href="/health">/health</a></p>
+    <p>Repo: iamade/ppaa-devnetwork-public-api · Branch: feat/pp-79-agent-showcase-catalog · Apache-2.0</p>
+  </footer>
+  <script src="/app.js"></script>
+</body>
+</html>
