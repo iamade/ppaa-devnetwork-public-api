@@ -91,6 +91,7 @@ uvicorn ppaa_showcase.main:app --port 8005
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — system overview + mermaid diagram
 - [docs/DEMO.md](docs/DEMO.md) — scripted and manual demo walkthroughs
 - [docs/SUBMISSION.md](docs/SUBMISSION.md) — DevNetwork submission checklist
+- [docs/SHA_MANIFEST.md](docs/SHA_MANIFEST.md) — verifiable commit lineage + evidence artifacts for the final submission
 
 ## Tests / checks
 
@@ -109,7 +110,8 @@ data/agents.json     catalog source of truth
 data/sponsors.json   multi-sponsor registry (adapter-validated)
 frontend/            static catalog UI (HTML/CSS/JS, no build step)
 scripts/demo.sh      deterministic scripted demo
-docs/                SETUP, API, ARCHITECTURE, DEMO, SUBMISSION guides
+docs/                SETUP, API, ARCHITECTURE, DEMO, SUBMISSION, SHA_MANIFEST guides
+evidence/             versioned submission artifacts (demo video)
 tests/               API, catalog-data, sponsor-adapter, render-smoke, compose-port, and docs tests
 docker-compose.yml   postgres 16 / redis 7 / app / web staging stack
 ```
