@@ -1,9 +1,10 @@
-# PPAA Agent Showcase (PP-79)
+# PPAA Agent Showcase
 
 Public-facing agent demo catalog and presentation layer for the People Protocol
-AI (PPAA) fleet — the DevNetwork submission surface (deadline 2026-09-03).
+AI (PPAA) fleet — the DevNetwork 2026 submission surface (Jira epic **PP-63**,
+deadline **2026-09-03**). Catalog layer delivered as PP-79.
 
-Repository: `iamade/ppaa-devnetwork-public-api` · License: Apache-2.0 · Branch: `feat/pp-79-agent-showcase-catalog`
+Repository: `iamade/ppaa-devnetwork-public-api` · License: Apache-2.0 · Staging branch: `staging`
 
 ## What it shows
 
@@ -26,7 +27,20 @@ Supabase/managed services are production-only. All published ports bind to
 | postgres | postgres:16-alpine | 127.0.0.1:25432 → 5432  |
 | redis    | redis:7-alpine     | 127.0.0.1:26379 → 6379  |
 
+## Demo
+
+One-command scripted demo (health → catalog → detail → 404 → UI):
+
+```bash
+bash scripts/demo.sh
+```
+
+Full walkthrough: [docs/DEMO.md](docs/DEMO.md).
+
 ## Setup
+
+Detailed guide (prerequisites, env vars, troubleshooting, reset):
+[docs/SETUP.md](docs/SETUP.md). Quick start:
 
 ```bash
 git clone https://github.com/iamade/ppaa-devnetwork-public-api.git
@@ -64,6 +78,14 @@ pip install -e '.[dev]'
 uvicorn ppaa_showcase.main:app --port 8005
 ```
 
+## Documentation
+
+- [docs/SETUP.md](docs/SETUP.md) — install, configure, verify, troubleshoot
+- [docs/API.md](docs/API.md) — endpoint reference with examples
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — system overview + mermaid diagram
+- [docs/DEMO.md](docs/DEMO.md) — scripted and manual demo walkthroughs
+- [docs/SUBMISSION.md](docs/SUBMISSION.md) — DevNetwork submission checklist
+
 ## Tests / checks
 
 ```bash
@@ -79,6 +101,8 @@ pytest tests/test_compose_ports.py -v   # deterministic compose port assertions
 src/ppaa_showcase/   FastAPI app (config, catalog model, health, main)
 data/agents.json     catalog source of truth
 frontend/            static catalog UI (HTML/CSS/JS, no build step)
-tests/               API, catalog-data, and compose-port tests
+scripts/demo.sh      deterministic scripted demo
+docs/                SETUP, API, ARCHITECTURE, DEMO, SUBMISSION guides
+tests/               API, catalog-data, compose-port, and docs tests
 docker-compose.yml   postgres 16 / redis 7 / app / web staging stack
 ```
