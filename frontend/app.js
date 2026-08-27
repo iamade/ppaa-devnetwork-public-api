@@ -12,15 +12,17 @@ const grid = document.getElementById("grid");
 const countEl = document.getElementById("count");
 const updatedEl = document.getElementById("updated");
 const msgEl = document.getElementById("msg");
+const sponsorsWrap = document.getElementById("sponsors-wrap");
+const sponsorsEl = document.getElementById("sponsors");
 document.getElementById("api-origin").textContent = API || location.origin;
 
 function chip(href, label) {
-  const isRoute = href.startsWith("/");
+  const isRoute = href != null && href.startsWith("/");
   const target = isRoute ? API + href : null;
   const a = document.createElement("a");
   a.className = "chip";
   a.textContent = label;
-  if (target) { a.href = target; } else { a.href = "#"; a.title = href; }
+  if (target) { a.href = target; } else { a.href = "#"; a.title = href ?? ""; }
   return a;
 }
 
@@ -50,6 +52,12 @@ function card(agent) {
   agent.demo_routes.forEach((r) => chips.appendChild(chip(r, r)));
   agent.jira_refs.forEach((j) => chips.appendChild(chip(null, j)));
   agent.evidence_links.forEach((e) => chips.appendChild(chip(null, e)));
+  (agent.sponsors ?? []).forEach((sp) => {
+    const c = chip(null, sp);
+    c.className = "chip chip-sponsor";
+    c.title = "Sponsor integration: " + sp;
+    chips.appendChild(c);
+  });
 
   el.append(name, role, desc, row, chips);
   return el;
@@ -69,6 +77,28 @@ async function render() {
   }
 }
 
+// PP-80: sponsor registry strip. Isolated on purpose — a sponsor-render
+// failure must never take the agent grid down with it.
+async function renderSponsors() {
+  try {
+    const res = await fetch(API + "/api/sponsors");
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    (data.sponsors ?? []).forEach((sp) => {
+      const a = document.createElement("a");
+      a.className = "sponsor" + (sp.example ? " sponsor-example" : "");
+      a.textContent = sp.name + " · " + sp.integration.type;
+      a.title = (sp.challenge_title ?? "") + " — integration: " + sp.integration.type;
+      a.href = "#";
+      sponsorsEl.appendChild(a);
+    });
+    if (sponsorsEl.children.length > 0) sponsorsWrap.hidden = false;
+  } catch (err) {
+    // sponsors are additive metadata; degrade silently (grid stays up)
+    if (typeof console !== "undefined" && console.warn) console.warn("sponsors strip skipped:", err.message);
+  }
+}
+
 document.getElementById("q").addEventListener("input", (ev) => {
   const q = ev.target.value.trim().toLowerCase();
   for (const el of grid.children) {
@@ -77,3 +107,4 @@ document.getElementById("q").addEventListener("input", (ev) => {
 });
 
 render();
+renderSponsors();
