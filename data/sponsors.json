@@ -1,0 +1,54 @@
+{
+  "updated": "2026-08-27T14:50:00Z",
+  "source": "DevNetwork multi-sponsor challenge registry (adapter-type examples; swap in the final published sponsor list, see docs/API.md)",
+  "sponsors": [
+    {
+      "sponsor_id": "devnetwork-platform",
+      "name": "DevNetwork Platform",
+      "tier": "platform",
+      "summary": "The DevNetwork multi-sponsor build platform hosting the Agent Showcase submission surface.",
+      "challenge_title": "Multi-Agent Showcase",
+      "challenge_category": "agent-platforms",
+      "integration": {
+        "type": "catalog_feed",
+        "config_keys": ["feed_url", "sync_interval"]
+      },
+      "agent_slugs": [
+        "ppaa-coordinator",
+        "ppaa-director",
+        "ppaa-builder",
+        "ppaa-qa",
+        "ppaa-scribe"
+      ],
+      "example": false
+    },
+    {
+      "sponsor_id": "sample-webhook-sponsor",
+      "name": "Sample Webhook Sponsor (adapter template)",
+      "tier": "example",
+      "summary": "Template entry demonstrating the webhook integration adapter; replace with a published sponsor.",
+      "challenge_title": "Event-Driven Agent Triggers",
+      "challenge_category": "integrations",
+      "integration": {
+        "type": "webhook",
+        "config_keys": ["endpoint_url", "signature_header"]
+      },
+      "agent_slugs": ["ppaa-builder", "ppaa-qa"],
+      "example": true
+    },
+    {
+      "sponsor_id": "sample-apikey-sponsor",
+      "name": "Sample API-Key Sponsor (adapter template)",
+      "tier": "example",
+      "summary": "Template entry demonstrating the api_key integration adapter; replace with a published sponsor.",
+      "challenge_title": "Authenticated Agent APIs",
+      "challenge_category": "integrations",
+      "integration": {
+        "type": "api_key",
+        "config_keys": ["key_env_var", "base_url"]
+      },
+      "agent_slugs": ["codex-mac-retest", "mavis"],
+      "example": true
+    }
+  ]
+}

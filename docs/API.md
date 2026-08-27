@@ -56,7 +56,8 @@ curl -fsS http://localhost:8005/api/agents | python3 -m json.tool | head -20
       "channel": "#ppaa-coordination",
       "jira_refs": ["PP-62"],
       "demo_routes": ["/api/agents/ppaa-coordinator"],
-      "evidence_links": ["…"]
+      "evidence_links": ["…"],
+      "sponsors": ["devnetwork-platform"]
     }
   ]
 }
@@ -85,6 +86,53 @@ curl -fsS http://localhost:8005/api/agents/ppaa-builder
 }
 ```
 
+## `GET /api/sponsors`
+
+Returns the multi-sponsor integration registry (PP-80). Source of truth:
+`data/sponsors.json`; every entry is validated against the adapter layer at
+request time — a registry that violates an adapter contract fails **500**
+with explicit errors instead of serving bad data.
+
+```bash
+curl -fsS http://localhost:8005/api/sponsors
+```
+
+```json
+{
+  "count": 3,
+  "updated": "2026-08-27T14:50:00Z",
+  "integration_types": ["api_key", "catalog_feed", "webhook"],
+  "sponsors": [
+    {
+      "sponsor_id": "devnetwork-platform",
+      "name": "DevNetwork Platform",
+      "tier": "platform",
+      "summary": "…",
+      "challenge_title": "Multi-Agent Showcase",
+      "challenge_category": "agent-platforms",
+      "integration": { "type": "catalog_feed", "config_keys": ["feed_url", "sync_interval"] },
+      "agent_slugs": ["ppaa-coordinator", "ppaa-director", "ppaa-builder", "ppaa-qa", "ppaa-scribe"],
+      "example": false
+    }
+  ]
+}
+```
+
+Adapter types: `catalog_feed` (pull), `webhook` (push), `api_key` (request).
+Entries with `"example": true` are clearly-labelled adapter templates — swap
+in the final published sponsor list by editing `data/sponsors.json` only.
+
+## `GET /api/sponsors/{sponsor_id}`
+
+Returns one sponsor with its integration contract and fully-expanded
+`agents` array. **404** when the sponsor id is unknown.
+
+```bash
+curl -fsS http://localhost:8005/api/sponsors/devnetwork-platform
+```
+
+Sponsor ids: `devnetwork-platform`, `sample-webhook-sponsor`, `sample-apikey-sponsor`.
+
 ## `GET /` and `GET /static/*`
 
 Same-origin static catalog UI (no build step). Primary frontend target is the
@@ -103,3 +151,4 @@ container for single-port demos.
 | `jira_refs`     | list[string]   | related Jira tickets                     |
 | `demo_routes`   | list[string]   | routes to hit when demoing this agent    |
 | `evidence_links`| list[string]   | public evidence pointers                 |
+| `sponsors`      | list[string]   | sponsor ids integrating this agent (PP-80; empty list = none) |

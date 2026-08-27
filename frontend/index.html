@@ -16,12 +16,16 @@
     <div class="controls">
       <input id="q" type="search" placeholder="Filter agents by name, role, or channel…" aria-label="Filter agents" />
     </div>
+    <div id="sponsors-wrap" class="sponsors-wrap" hidden>
+      <h2 class="sponsors-title">Sponsors &amp; integration adapters</h2>
+      <div id="sponsors" class="sponsors" aria-live="polite"></div>
+    </div>
     <section id="grid" class="grid" aria-live="polite"></section>
     <p id="msg" class="msg" hidden></p>
   </main>
   <footer>
-    <p>Backend <code id="api-origin">/</code> · <a href="/api/agents">/api/agents</a> · <a href="/health">/health</a></p>
-    <p>Repo: iamade/ppaa-devnetwork-public-api · Branch: feat/pp-79-agent-showcase-catalog · Apache-2.0</p>
+    <p>Backend <code id="api-origin">/</code> · <a href="/api/agents">/api/agents</a> · <a href="/api/sponsors">/api/sponsors</a> · <a href="/health">/health</a></p>
+    <p>Repo: iamade/ppaa-devnetwork-public-api · Branch: feat/pp-80-sponsor-adapters · Apache-2.0</p>
   </footer>
   <script src="/app.js"></script>
 </body>

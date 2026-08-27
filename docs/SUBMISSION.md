@@ -15,7 +15,7 @@ Director = acceptance, Ade = final submission approval.
 | 6 | Architecture overview + diagram      | ✅ Done | `docs/ARCHITECTURE.md` (this branch) |
 | 7 | Public demo (scripted)               | ✅ Done | `scripts/demo.sh` + `docs/DEMO.md` (this branch) |
 | 8 | Deterministic quality gates          | ✅ Done | ruff / mypy strict / pytest incl. compose-port + docs tests |
-| 9 | Multi-sponsor integration adapters (PP-80) | ⏳ Blocked | Gated on PP-79 QA PASS, then final published challenge requirements |
+| 9 | Multi-sponsor integration adapters (PP-80) | ✅ Delivered | `feat/pp-80-sponsor-adapters` — `/api/sponsors`(+`/{id}`), adapter layer `sponsors.py`, UI strip + badges; example sponsors labelled until final list publishes |
 | 10| Submission packaging + demo video (PP-81) | ⏳ Pending | Gated on PP-80; video skeleton = `scripts/demo.sh` walk + UI click-through |
 | 11| Final submission                     | ⏳ Pending | Ade approval only |
 

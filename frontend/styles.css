@@ -40,3 +40,18 @@ h1 { margin: 0 0 4px; font-size: clamp(24px, 4vw, 36px); }
 footer { border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
 footer a { color: var(--accent); }
 code { background: #21262d; padding: 1px 6px; border-radius: 6px; }
+
+/* PP-80: sponsor strip + agent sponsor badges */
+.sponsors-wrap { padding: 16px clamp(16px, 6vw, 64px) 0; }
+.sponsors-title {
+  color: var(--muted); font-size: 13px; text-transform: uppercase;
+  letter-spacing: 0.06em; margin: 0 0 8px;
+}
+.sponsors { display: flex; flex-wrap: wrap; gap: 8px; }
+.sponsor {
+  background: #1c2333; border: 1px solid var(--border); border-radius: 8px;
+  padding: 6px 12px; font-size: 13px; color: var(--text); text-decoration: none;
+}
+.sponsor:hover { border-color: var(--accent); }
+.sponsor-example { border-style: dashed; color: var(--muted); }
+.chip-sponsor { color: #7ee787; border-color: #238636; }

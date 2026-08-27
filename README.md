@@ -11,8 +11,13 @@ Repository: `iamade/ppaa-devnetwork-public-api` · License: Apache-2.0 · Stagin
 - A catalog UI of the PPAA agent fleet (Coordinator, Director, Builder, QA,
   Scribe, Mavis, Amara, Akande, Codex Mac Retest, Tobi) with role
   descriptions, channel/Jira references, demo routes, and evidence links.
-- A small FastAPI backend serving `/api/agents`, `/api/agents/{slug}` and a
-  `/health` endpoint that verifies PostgreSQL and Redis connectivity.
+- A small FastAPI backend serving `/api/agents`, `/api/agents/{slug}`,
+  `/api/sponsors`, `/api/sponsors/{sponsor_id}` and a `/health` endpoint that
+  verifies PostgreSQL and Redis connectivity.
+- A multi-sponsor integration adapter layer (PP-80): data-driven sponsor
+  registry (`data/sponsors.json`) with `catalog_feed` / `webhook` / `api_key`
+  adapters, agent-to-sponsor attribution in the API and UI sponsor badges.
+  Template sponsors are clearly labelled until the final published list lands.
 
 ## Architecture (AFD-108)
 
@@ -61,7 +66,8 @@ Verify:
 ```bash
 curl -fsS http://localhost:8005/health    # {"status":"healthy",...}
 curl -fsS http://localhost:8005/api/agents
-open http://localhost:5174                # catalog UI
+curl -fsS http://localhost:8005/api/sponsors
+open http://localhost:5174                # catalog UI + sponsor strip
 ```
 
 Stop:
@@ -98,11 +104,12 @@ pytest tests/test_compose_ports.py -v   # deterministic compose port assertions
 ## Layout
 
 ```
-src/ppaa_showcase/   FastAPI app (config, catalog model, health, main)
+src/ppaa_showcase/   FastAPI app (config, catalog, sponsors, health, main)
 data/agents.json     catalog source of truth
+data/sponsors.json   multi-sponsor registry (adapter-validated)
 frontend/            static catalog UI (HTML/CSS/JS, no build step)
 scripts/demo.sh      deterministic scripted demo
 docs/                SETUP, API, ARCHITECTURE, DEMO, SUBMISSION guides
-tests/               API, catalog-data, compose-port, and docs tests
+tests/               API, catalog-data, sponsor-adapter, render-smoke, compose-port, and docs tests
 docker-compose.yml   postgres 16 / redis 7 / app / web staging stack
 ```

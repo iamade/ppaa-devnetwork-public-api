@@ -18,27 +18,36 @@ if ! require curl; then
     exit 1
 fi
 
-step "1/5 backend /health (pg SELECT 1 + redis PING)"
+step "1/6 backend /health (pg SELECT 1 + redis PING)"
 body="$(curl -fsS "$API/health" 2>/dev/null)" \
     && printf '%s' "$body" | grep -q '"status":"healthy"' \
     && ok || bad "GET $API/health did not return status=healthy"
 
-step "2/5 catalog /api/agents"
+step "2/6 catalog /api/agents"
 body="$(curl -fsS "$API/api/agents" 2>/dev/null)" \
     && printf '%s' "$body" | grep -q '"count":' \
     && printf '%s' "$body" | grep -q '"ppaa-builder"' \
     && ok || bad "GET $API/api/agents missing count or ppaa-builder"
 
-step "3/5 agent detail /api/agents/ppaa-builder"
+step "3/6 agent detail /api/agents/ppaa-builder"
 body="$(curl -fsS "$API/api/agents/ppaa-builder" 2>/dev/null)" \
     && printf '%s' "$body" | grep -q '"slug":"ppaa-builder"' \
     && ok || bad "GET $API/api/agents/ppaa-builder did not return the agent"
 
-step "4/5 unknown agent returns 404"
+step "4/6 sponsors /api/sponsors + /api/sponsors/{id}"
+body="$(curl -fsS "$API/api/sponsors" 2>/dev/null)" \
+    && printf '%s' "$body" | grep -q '"count":' \
+    && printf '%s' "$body" | grep -q '"devnetwork-platform"' \
+    && body="$(curl -fsS "$API/api/sponsors/devnetwork-platform" 2>/dev/null)" \
+    && printf '%s' "$body" | grep -q '"sponsor_id":"devnetwork-platform"' \
+    && printf '%s' "$body" | grep -q '"integration":{"type":"catalog_feed"' \
+    && ok || bad "GET /api/sponsors(+detail) missing count, devnetwork-platform, or catalog_feed contract"
+
+step "5/6 unknown agent returns 404"
 code="$(curl -s -o /dev/null -w '%{http_code}' "$API/api/agents/does-not-exist")" \
     && [ "$code" = "404" ] && ok || bad "expected 404, got ${code:-none}"
 
-step "5/5 frontend UI"
+step "6/6 frontend UI"
 code="$(curl -s -o /dev/null -w '%{http_code}' "$WEB/")" \
     && [ "$code" = "200" ] && ok || bad "GET $WEB/ returned ${code:-none}"
 
