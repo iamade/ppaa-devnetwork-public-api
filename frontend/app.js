@@ -15,12 +15,12 @@ const msgEl = document.getElementById("msg");
 document.getElementById("api-origin").textContent = API || location.origin;
 
 function chip(href, label) {
-  const isRoute = href.startsWith("/");
+  const isRoute = href != null && href.startsWith("/");
   const target = isRoute ? API + href : null;
   const a = document.createElement("a");
   a.className = "chip";
   a.textContent = label;
-  if (target) { a.href = target; } else { a.href = "#"; a.title = href; }
+  if (target) { a.href = target; } else { a.href = "#"; a.title = href ?? ""; }
   return a;
 }
 
